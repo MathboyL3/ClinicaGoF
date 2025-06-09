@@ -14,16 +14,25 @@
 
 ## 📂 Estrutura de Projeto
 
-`ClinicaGoF/
+ClinicaGoF/
+
 ├── src/
+
 │   ├── ClinicaGoF.API             # Web API com controllers REST
+
 │   ├── ClinicaGoF.Application     # Casos de uso, serviços e DTOs
+
 │   ├── ClinicaGoF.Domain          # Entidades e interfaces de domínio
+
 │   ├── ClinicaGoF.Infrastructure  # Persistência com EF Core InMemory
+
 ├── tests/
+
 │   ├── ClinicaGoF.UnitTests       # Testes de unidade
+
 │   └── ClinicaGoF.IntegrationTests # Testes de integração
-`
+
+
 ## 🧠 Funcionalidades Atuais
 
 ### 📋 Pacientes
@@ -58,8 +67,8 @@
 
 ## 🧪 Testes
 
-Implementados com xUnit
-Injeção de dependência simulada com repositórios InMemory
+- Implementados com xUnit
+- Injeção de dependência simulada com repositórios InMemory
 
 ## 🔧 Padrões e Princípios Aplicados
 
@@ -83,10 +92,10 @@ Injeção de dependência simulada com repositórios InMemory
 ## 📦 Como Executar
 
 # Restore e build
-`cd src/ClinicaGoF.API
-dotnet restore`
+`cd src/ClinicaGoF.API`
+`dotnet restore`
 
 # Executar API
 `dotnet run`
 
-Acesse: https://localhost:7150/swagger para explorar a documentação interativa.
+> Acesse: https://localhost:7150/swagger para explorar a documentação interativa.
