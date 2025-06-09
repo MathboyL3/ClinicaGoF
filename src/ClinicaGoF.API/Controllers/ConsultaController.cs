@@ -15,6 +15,9 @@ public class ConsultaController : ControllerBase
         _consultaService = consultaService;
     }
 
+    /// <summary>
+    /// Lista todas as consultas cadastradas.
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -22,6 +25,10 @@ public class ConsultaController : ControllerBase
         return Ok(consultas);
     }
 
+    /// <summary>
+    /// Lista todas as consultas de um paciente pelo seu ID.
+    /// </summary>
+    /// <param name="pacienteId">ID do paciente</param>
     [HttpGet("paciente/{pacienteId}")]
     public async Task<IActionResult> GetByPaciente(Guid pacienteId)
     {
@@ -29,6 +36,10 @@ public class ConsultaController : ControllerBase
         return Ok(consultas);
     }
 
+    /// <summary>
+    /// Lista consultas de um paciente pelo documento (CPF).
+    /// </summary>
+    /// <param name="documento">Documento do paciente</param>
     [HttpGet("paciente/documento/{documento}")]
     public async Task<IActionResult> GetByDocumento(string documento)
     {
@@ -36,6 +47,10 @@ public class ConsultaController : ControllerBase
         return Ok(consultas);
     }
 
+    /// <summary>
+    /// Lista consultas de um médico pelo CRM.
+    /// </summary>
+    /// <param name="crm">CRM do médico</param>
     [HttpGet("medico/crm/{crm}")]
     public async Task<IActionResult> GetByCrm(string crm)
     {
@@ -43,6 +58,11 @@ public class ConsultaController : ControllerBase
         return Ok(consultas);
     }
 
+    /// <summary>
+    /// Lista consultas agendadas dentro de um intervalo de datas.
+    /// </summary>
+    /// <param name="inicio">Data inicial</param>
+    /// <param name="fim">Data final</param>
     [HttpGet("intervalo")]
     public async Task<IActionResult> GetByIntervalo([FromQuery] DateTime inicio, [FromQuery] DateTime fim)
     {
@@ -50,6 +70,10 @@ public class ConsultaController : ControllerBase
         return Ok(consultas);
     }
 
+    /// <summary>
+    /// Agenda uma nova consulta.
+    /// </summary>
+    /// <param name="input">Dados da nova consulta</param>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] ConsultaInputModel input)
     {

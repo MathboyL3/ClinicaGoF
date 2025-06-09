@@ -15,6 +15,9 @@ public class PacienteController : ControllerBase
         _pacienteService = pacienteService;
     }
 
+    /// <summary>
+    /// Lista todos os pacientes cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -22,6 +25,10 @@ public class PacienteController : ControllerBase
         return Ok(pacientes);
     }
 
+    /// <summary>
+    /// Retorna um paciente pelo seu documento (CPF).
+    /// </summary>
+    /// <param name="documento">Documento do paciente</param>
     [HttpGet("{documento}")]
     public async Task<IActionResult> GetByDocumento(string documento)
     {
@@ -29,6 +36,10 @@ public class PacienteController : ControllerBase
         return paciente is null ? NotFound() : Ok(paciente);
     }
 
+    /// <summary>
+    /// Cadastra um novo paciente.
+    /// </summary>
+    /// <param name="paciente">Dados do novo paciente</param>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] PacienteInputModel paciente)
     {

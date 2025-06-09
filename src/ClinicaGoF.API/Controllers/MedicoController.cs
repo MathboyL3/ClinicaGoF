@@ -15,6 +15,9 @@ public class MedicoController : ControllerBase
         _medicoService = medicoService;
     }
 
+    /// <summary>
+    /// Lista todos os médicos cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -22,6 +25,10 @@ public class MedicoController : ControllerBase
         return Ok(medicos);
     }
 
+    /// <summary>
+    /// Retorna um médico pelo seu CRM.
+    /// </summary>
+    /// <param name="crm">CRM do médico</param>
     [HttpGet("{crm}")]
     public async Task<IActionResult> GetByCrm(string crm)
     {
@@ -29,6 +36,10 @@ public class MedicoController : ControllerBase
         return medico is null ? NotFound() : Ok(medico);
     }
 
+    /// <summary>
+    /// Cadastra um novo médico.
+    /// </summary>
+    /// <param name="medico">Dados do novo médico</param>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MedicoInputModel medico)
     {
