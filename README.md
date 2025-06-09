@@ -14,7 +14,7 @@
 
 ## 📂 Estrutura de Projeto
 
-ClinicaGoF/
+`ClinicaGoF/
 ├── src/
 │   ├── ClinicaGoF.API             # Web API com controllers REST
 │   ├── ClinicaGoF.Application     # Casos de uso, serviços e DTOs
@@ -23,29 +23,29 @@ ClinicaGoF/
 ├── tests/
 │   ├── ClinicaGoF.UnitTests       # Testes de unidade
 │   └── ClinicaGoF.IntegrationTests # Testes de integração
-
+`
 ## 🧠 Funcionalidades Atuais
 
 ### 📋 Pacientes
 
-GET /api/paciente — Listar todos os pacientes
-GET /api/paciente/{documento} — Buscar paciente por documento
-POST /api/paciente — Cadastrar novo paciente
+> GET /api/paciente — Listar todos os pacientes
+> GET /api/paciente/{documento} — Buscar paciente por documento
+> POST /api/paciente — Cadastrar novo paciente
 
 ### 👨‍⚕️ Médicos
 
-GET /api/medico — Listar todos os médicos
-GET /api/medico/{crm} — Buscar médico por CRM
-POST /api/medico — Cadastrar novo médico
+> GET /api/medico — Listar todos os médicos
+> GET /api/medico/{crm} — Buscar médico por CRM
+> POST /api/medico — Cadastrar novo médico
 
 ### 📆 Consultas
 
-GET /api/consulta — Listar todas as consultas
-GET /api/consulta/paciente/{pacienteId} — Por ID de paciente
-GET /api/consulta/paciente/documento/{documento} — Por documento de paciente
-GET /api/consulta/medico/crm/{crm} — Por CRM de médico
-GET /api/consulta/intervalo?inicio=2025-01-01&fim=2025-01-31 — Por intervalo de datas
-POST /api/consulta — Agendar nova consulta
+> GET /api/consulta — Listar todas as consultas
+> GET /api/consulta/paciente/{pacienteId} — Por ID de paciente
+> GET /api/consulta/paciente/documento/{documento} — Por documento de paciente
+> GET /api/consulta/medico/crm/{crm} — Por CRM de médico
+> GET /api/consulta/intervalo?inicio=2025-01-01&fim=2025-01-31 — Por intervalo de datas
+> POST /api/consulta — Agendar nova consulta
 
 ## 🧪 Testes
 
@@ -60,10 +60,14 @@ Injeção de dependência simulada com repositórios InMemory
 
 ## 📚 Próxima Etapa
 
-Refatoração com Design Patterns Criacionais:
-Builder: criação de consultas com fluxo fluente
-Factory Method: envio de notificações
-Singleton: gerenciador de notificações
+1 - Refatoração com Design Patterns Criacionais:
+ - Builder: criação de consultas com fluxo fluente
+ - Factory Method: envio de notificações
+ - Singleton: gerenciador de notificações
+
+2 - Refatoração com Design Patterns Estruturais
+3 - Refatoração com Design Patterns Comportamentais
+4 - Criação de testes Unitários e Testes de Integração
 
 ## 📦 Como Executar
 
@@ -75,4 +79,3 @@ dotnet restore`
 `dotnet run`
 
 Acesse: https://localhost:7150/swagger para explorar a documentação interativa.
-
