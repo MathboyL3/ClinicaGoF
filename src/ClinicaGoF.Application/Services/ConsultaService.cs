@@ -1,4 +1,5 @@
-﻿using ClinicaGoF.Application.DTOs.InputModels;
+﻿using ClinicaGoF.Application.Builders;
+using ClinicaGoF.Application.DTOs.InputModels;
 using ClinicaGoF.Application.DTOs.ViewModels;
 using ClinicaGoF.Application.Services.Interfaces;
 using ClinicaGoF.Domain.Entities;
@@ -69,15 +70,85 @@ public class ConsultaService : IConsultaService
 
     public async Task AgendarAsync(ConsultaInputModel input)
     {
-        var consulta = new Consulta
-        {
-            Id = Guid.NewGuid(),
-            PacienteId = input.PacienteId,
-            MedicoId = input.MedicoId,
-            DataHora = input.DataHora,
-            Observacoes = input.Observacoes
-        };
+
+        var consultaBuilder = new ConsultaBuilder()
+            .ComPaciente(input.PacienteId)
+            .ComMedico(input.MedicoId)
+            .NaData(input.DataHora)
+            .ComObservacoes(input.Observacoes)
+            .AdicionarValidacao(async () =>
+            {
+                // Validar se o paciente existe
+                var paciente = await _pacienteRepo.GetByIdAsync(input.PacienteId);
+                return paciente != null
+                    ? ValidationResult.Success()
+                    : ValidationResult.Failure("Paciente não encontrado");
+            })
+            .AdicionarValidacao(async () =>
+            {
+                // Validar se o médico existe
+                var medico = await _medicoRepo.GetByIdAsync(input.MedicoId);
+                return medico != null
+                    ? ValidationResult.Success()
+                    : ValidationResult.Failure("Médico não encontrado");
+            })
+            .AdicionarValidacao(async () =>
+            {
+                // Validar se data é futura
+                return input.DataHora > DateTime.Now
+                    ? ValidationResult.Success()
+                    : ValidationResult.Failure("A data da consulta deve ser futura");
+            })
+            .AdicionarValidacao(async () =>
+            {
+                // Verificar se o médico já tem consulta no horário
+                var consultas = await _consultaRepo.GetAllAsync();
+                var conflito = consultas.Any(c =>
+                    c.MedicoId == input.MedicoId &&
+                    c.DataHora == input.DataHora);
+
+                return !conflito
+                    ? ValidationResult.Success()
+                    : ValidationResult.Failure("Médico já possui consulta agendada neste horário");
+            });
+
+        var consulta = await consultaBuilder.ConstruirAsync();
 
         await _consultaRepo.AddAsync(consulta);
+    }
+
+    public async Task<Guid> ReagendarConsultaAsync(Guid consultaId, DateTime novaDataHora)
+    {
+        // Obtém a consulta original
+        var consultaOriginal = await _consultaRepo.GetByIdAsync(consultaId);
+        if (consultaOriginal == null)
+        {
+            throw new KeyNotFoundException("Consulta não encontrada");
+        }
+
+        // Valida se a nova data é futura
+        if (novaDataHora <= DateTime.Now)
+        {
+            throw new ArgumentException("A nova data da consulta deve ser futura");
+        }
+
+        // Verifica se o médico já tem consulta no novo horário
+        var consultas = await _consultaRepo.GetAllAsync();
+        var conflito = consultas.Any(c =>
+            c.MedicoId == consultaOriginal.MedicoId &&
+            c.DataHora == novaDataHora);
+
+        if (conflito)
+        {
+            throw new InvalidOperationException("Médico já possui consulta agendada neste horário");
+        }
+
+        // Aplica o padrão Prototype para criar uma cópia da consulta com a nova data
+        var novaConsulta = consultaOriginal.CloneWithNewDateTime(novaDataHora);
+
+        // Salva a nova consulta no repositório
+        await _consultaRepo.AddAsync(novaConsulta);
+
+        return novaConsulta.Id;
     }
 }

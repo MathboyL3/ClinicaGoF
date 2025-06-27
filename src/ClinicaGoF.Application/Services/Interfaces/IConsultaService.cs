@@ -9,5 +9,6 @@ public interface IConsultaService
     Task<IEnumerable<ConsultaViewModel>> ListarPorDocumentoPacienteAsync(string documento);
     Task<IEnumerable<ConsultaViewModel>> ListarPorCrmMedicoAsync(string crm);
     Task<IEnumerable<ConsultaViewModel>> ListarPorIntervaloAsync(DateTime inicio, DateTime fim);
+    Task<Guid> ReagendarConsultaAsync(Guid consultaId, DateTime novaDataHora);
     Task AgendarAsync(ConsultaInputModel input);
 }

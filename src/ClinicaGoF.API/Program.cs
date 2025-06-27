@@ -31,6 +31,10 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(InMemoryRepository<>));
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IConsultaService, ConsultaService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<INotificationFactory, NotificationFactory>();
+
+builder.Services.AddSingleton<IMessageBatchManager, MessageBatchManager>();
 
 var app = builder.Build();
 
